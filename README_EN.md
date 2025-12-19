@@ -164,7 +164,7 @@ if ocr_result:
 The project includes complete example code that can be run directly:
 
 ```bash
-python kp_example.py
+python example.py
 ```
 
 ## Project Structure
@@ -172,7 +172,7 @@ python kp_example.py
 ```
 PyKeyPresser/
 ├── PyKeyPresser.py      # PyKeyPresser class, Python wrapper for kp COM interface
-├── kp_example.py      # Usage examples and test code
+├── example.py      # Usage examples and test code
 ├── CKeyPresser.h      # C++ header file defining COM interface
 ├── dm.dll            # dm COM component
 ├── README.md         # Chinese documentation

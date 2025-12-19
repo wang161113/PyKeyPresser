@@ -164,7 +164,7 @@ if ocr_result:
 项目包含完整的示例代码，可以直接运行：
 
 ```bash
-python kp_example.py
+python example.py
 ```
 
 ## 项目结构
@@ -172,7 +172,7 @@ python kp_example.py
 ```
 PyKeyPresser/
 ├── PyKeyPresser.py      # PyKeyPresser类，kp COM接口的Python包装类
-├── kp_example.py      # 使用示例和测试代码
+├── example.py      # 使用示例和测试代码
 ├── CKeyPresser.h      # C++头文件，定义COM接口
 ├── dm.dll            # dm COM组件
 ├── README.md         # 本文件
