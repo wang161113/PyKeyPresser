@@ -150,7 +150,7 @@ def advanced_example():
     windows = kp.EnumWindow(0, "", "", 0)
     if windows:
         window_list = windows.split(",")
-        for i, hwnd in enumerate(window_list[:10]):  # 只显示前10个
+        for i, hwnd in enumerate(window_list): 
             title = kp.GetWindowTitle(int(hwnd))
             if title:
                 print(f"  {i+1}. 句柄: {hwnd}, 标题: {title}")

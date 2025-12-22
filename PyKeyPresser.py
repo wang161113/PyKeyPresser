@@ -234,11 +234,13 @@ class PyKeyPresser:
     
     def ClientToScreen(self, hwnd, x, y):
         """客户区坐标转屏幕坐标"""
-        return self.dm.ClientToScreen(hwnd, x, y)
+        result = self.dm.ClientToScreen(hwnd, x, y)
+        return result, x, y
     
     def ScreenToClient(self, hwnd, x, y):
         """屏幕坐标转客户区坐标"""
-        return self.dm.ScreenToClient(hwnd, x, y)
+        result = self.dm.ScreenToClient(hwnd, x, y)
+        return result, x, y
     
     def ShowScrMsg(self, x1, y1, x2, y2, msg, color):
         """显示屏幕消息"""
@@ -654,17 +656,79 @@ class PyKeyPresser:
         """获取DM路径"""
         return self.dm.GetDmPath(index)
     
-    def FindWindow(self, hwnd, title, class_name):
-        """查找窗口"""
-        return self.dm.FindWindow(hwnd, title, class_name)
+    def FindWindow(self, class_name, title):
+        """查找窗口，返回窗口句柄
+        Args:
+            class_name: 窗口类名
+            title: 窗口标题
+        Returns:
+            窗口句柄，如果未找到返回0
+        """
+        return self.dm.FindWindow(class_name, title)
     
-    def FindWindowEx(self, hwnd_parent, hwnd_child_after, class_name, window_text):
-        """查找窗口(扩展)"""
-        return self.dm.FindWindowEx(hwnd_parent, hwnd_child_after, class_name, window_text)
+    def FindWindowEx(self, parent, class_name, title):
+        """查找窗口(扩展)，返回窗口句柄
+        Args:
+            parent: 父窗口句柄，0表示桌面
+            class_name: 窗口类名
+            title: 窗口标题
+        Returns:
+            窗口句柄，如果未找到返回0
+        """
+        return self.dm.FindWindowEx(parent, class_name, title)
+    
+    def FindWindowByProcess(self, process_name, class_name, title):
+        """根据进程名查找窗口，返回窗口句柄
+        Args:
+            process_name: 进程名
+            class_name: 窗口类名
+            title: 窗口标题
+        Returns:
+            窗口句柄，如果未找到返回0
+        """
+        return self.dm.FindWindowByProcess(process_name, class_name, title)
+    
+    def FindWindowByProcessId(self, process_id, class_name, title):
+        """根据进程ID查找窗口，返回窗口句柄
+        Args:
+            process_id: 进程ID
+            class_name: 窗口类名
+            title: 窗口标题
+        Returns:
+            窗口句柄，如果未找到返回0
+        """
+        return self.dm.FindWindowByProcessId(process_id, class_name, title)
     
     def GetWindowThreadProcessId(self, hwnd):
         """获取窗口线程进程ID"""
         return self.dm.GetWindowThreadProcessId(hwnd)
+    
+    def GetWindowProcessId(self, hwnd):
+        """获取窗口所属进程ID
+        Args:
+            hwnd: 窗口句柄
+        Returns:
+            进程ID
+        """
+        return self.dm.GetWindowProcessId(hwnd)
+    
+    def GetWindowProcessPath(self, hwnd):
+        """获取窗口所属进程路径
+        Args:
+            hwnd: 窗口句柄
+        Returns:
+            进程路径
+        """
+        return self.dm.GetWindowProcessPath(hwnd)
+    
+    def LockInput(self, lock):
+        """锁定输入
+        Args:
+            lock: 1锁定，0解锁
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.LockInput(lock)
     
     def GetWindowDC(self, hwnd):
         """获取窗口设备上下文"""
@@ -684,7 +748,9 @@ class PyKeyPresser:
     
     def GetCursorPos(self):
         """获取鼠标位置"""
-        return self.dm.GetCursorPos()
+        x, y = 0, 0
+        result = self.dm.GetCursorPos(x, y)
+        return result, x, y
     
     def SetCursorPos(self, x, y):
         """设置鼠标位置"""
@@ -773,6 +839,60 @@ class PyKeyPresser:
     def GetID(self):
         """获取ID"""
         return self.dm.GetID()
+    
+    def CapturePng(self, x1, y1, x2, y2, file):
+        """PNG格式截图
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            file: 保存文件路径
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.CapturePng(x1, y1, x2, y2, file)
+    
+    def CaptureGif(self, x1, y1, x2, y2, file, delay, time):
+        """GIF格式截图
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            file: 保存文件路径
+            delay: 帧延迟(毫秒)
+            time: 录制时间(毫秒)
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.CaptureGif(x1, y1, x2, y2, file, delay, time)
+    
+    def CaptureJpg(self, x1, y1, x2, y2, file, quality):
+        """JPG格式截图
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            file: 保存文件路径
+            quality: 图片质量(1-100)
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.CaptureJpg(x1, y1, x2, y2, file, quality)
+    
+    def FindStrWithFont(self, x1, y1, x2, y2, str_text, color, sim, font_name, font_size, flag):
+        """查找字符串(带字体)
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            str_text: 要查找的字符串
+            color: 字体颜色
+            sim: 相似度
+            font_name: 字体名称
+            font_size: 字体大小
+            flag: 查找标志
+        Returns:
+            (result, x, y) - 查找结果和坐标
+        """
+        x, y = 0, 0
+        result = self.dm.FindStrWithFont(x1, y1, x2, y2, str_text, color, sim, font_name, font_size, flag, x, y)
+        return result, x, y
     
     def GetMachineCode(self):
         """获取机器码"""
@@ -866,15 +986,78 @@ class PyKeyPresser:
         """查找图片(增强扩展)"""
         return self.dm.FindPicEEx(x1, y1, x2, y2, pic_name, delta_color, sim, dir)
     
-    def FindMultiColor(self, x1, y1, x2, y2, color, sim, dir=0):
-        """查找多点颜色"""
+    def FindMultiColor(self, x1, y1, x2, y2, first_color, offset_color, sim, dir=0):
+        """查找多点颜色
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            first_color: 第一个点的颜色
+            offset_color: 偏移颜色点格式，如"00ff00|2,3|0000ff|5,5"
+            sim: 相似度
+            dir: 查找方向
+        Returns:
+            (result, x, y) - 查找结果和坐标
+        """
         x, y = 0, 0
-        result = self.dm.FindMultiColor(x1, y1, x2, y2, color, sim, dir, x, y)
+        result = self.dm.FindMultiColor(x1, y1, x2, y2, first_color, offset_color, sim, dir, x, y)
         return result, x, y
     
-    def FindMultiColorEx(self, x1, y1, x2, y2, color, sim, dir=0):
-        """查找多点颜色(扩展)"""
-        return self.dm.FindMultiColorEx(x1, y1, x2, y2, color, sim, dir)
+    def FindMultiColorEx(self, x1, y1, x2, y2, first_color, offset_color, sim, dir=0):
+        """查找多点颜色(扩展)
+        Args:
+            x1, y1: 左上角坐标
+            x2, y2: 右下角坐标
+            first_color: 第一个点的颜色
+            offset_color: 偏移颜色点格式，如"00ff00|2,3|0000ff|5,5"
+            sim: 相似度
+            dir: 查找方向
+        Returns:
+            所有匹配点的坐标字符串
+        """
+        return self.dm.FindMultiColorEx(x1, y1, x2, y2, first_color, offset_color, sim, dir)
+    
+    def SetWindowTransparent(self, hwnd, v):
+        """设置窗口透明度
+        Args:
+            hwnd: 窗口句柄
+            v: 透明度值(0-255)
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.SetWindowTransparent(hwnd, v)
+    
+    def ReadData(self, hwnd, addr, len):
+        """读取进程内存数据
+        Args:
+            hwnd: 窗口句柄
+            addr: 内存地址
+            len: 读取长度
+        Returns:
+            读取的数据(十六进制字符串)
+        """
+        return self.dm.ReadData(hwnd, addr, len)
+    
+    def WriteData(self, hwnd, addr, data):
+        """写入进程内存数据
+        Args:
+            hwnd: 窗口句柄
+            addr: 内存地址
+            data: 要写入的数据(十六进制字符串)
+        Returns:
+            操作结果，0表示失败，1表示成功
+        """
+        return self.dm.WriteData(hwnd, addr, data)
+    
+    def FindData(self, hwnd, addr_range, data):
+        """在进程内存中查找数据
+        Args:
+            hwnd: 窗口句柄
+            addr_range: 地址范围，如"400000-401000"
+            data: 要查找的数据(十六进制字符串)
+        Returns:
+            找到的地址字符串，多个地址用逗号分隔
+        """
+        return self.dm.FindData(hwnd, addr_range, data)
     
     def FindPicMem(self, x1, y1, x2, y2, pic_info, delta_color, sim, dir=0):
         """在内存中查找图片"""
