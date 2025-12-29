@@ -53,6 +53,52 @@ def main():
     print("按下回车键")
     time.sleep(1)
     
+    # 组合键操作示例 (Ctrl+A 全选)
+    print("\n=== 组合键操作示例 ===")
+    print("按下 Ctrl+A (全选)")
+    # 先按下Ctrl键
+    kp.KeyDown(17)  # Ctrl键的虚拟键码是17
+    time.sleep(0.1)
+    # 再按下A键
+    kp.KeyPress(65)  # A键的虚拟键码是65
+    time.sleep(0.1)
+    # 最后释放Ctrl键
+    kp.KeyUp(17)  # 释放Ctrl键
+    print("组合键 Ctrl+A 完成")
+    time.sleep(1)
+    
+    # 组合键操作示例 (Ctrl+C 复制)
+    print("按下 Ctrl+C (复制)")
+    # 先按下Ctrl键
+    kp.KeyDown(17)  # Ctrl键的虚拟键码是17
+    time.sleep(0.1)
+    # 再按下C键
+    kp.KeyPress(67)  # C键的虚拟键码是67
+    time.sleep(0.1)
+    # 最后释放Ctrl键
+    kp.KeyUp(17)  # 释放Ctrl键
+    print("组合键 Ctrl+C 完成")
+    time.sleep(1)
+    
+    # 使用便利方法发送组合键
+    print("\n=== 使用便利方法发送组合键 ===")
+    print("使用便利方法按下 Ctrl+V (粘贴)")
+    kp.CtrlV()  # 使用便利方法
+    print("组合键 Ctrl+V 完成")
+    time.sleep(1)
+    
+    print("使用便利方法按下 Ctrl+S (保存)")
+    kp.CtrlS()  # 使用便利方法
+    print("组合键 Ctrl+S 完成")
+    time.sleep(1)
+    
+    # 使用通用组合键方法
+    print("\n=== 使用通用组合键方法 ===")
+    print("使用通用方法按下 Alt+Tab")
+    kp.KeyCombo(18, 9)  # Alt=18, Tab=9
+    print("组合键 Alt+Tab 完成")
+    time.sleep(1)
+    
     # 3. 颜色操作示例
     print("\n=== 颜色操作示例 ===")
     

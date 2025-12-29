@@ -168,6 +168,59 @@ class PyKeyPresser:
         """按键释放"""
         return self.dm.KeyUp(vk_code)
     
+    def KeyDownChar(self, key_str):
+        """按下字符键"""
+        return self.dm.KeyDownChar(key_str)
+    
+    def KeyUpChar(self, key_str):
+        """释放字符键"""
+        return self.dm.KeyUpChar(key_str)
+    
+    def KeyPressChar(self, key_str):
+        """按下字符键"""
+        return self.dm.KeyPressChar(key_str)
+    
+    def KeyPressStr(self, key_str, delay):
+        """按下字符串键"""
+        return self.dm.KeyPressStr(key_str, delay)
+    
+    def KeyCombo(self, modifier_key, key_code, delay=0.1):
+        """发送组合键
+        Args:
+            modifier_key: 修饰键的虚拟键码 (如Ctrl=17, Alt=18, Shift=16)
+            key_code: 目标键的虚拟键码
+            delay: 按键之间的延迟(秒)
+        """
+        self.KeyDown(modifier_key)
+        time.sleep(delay)
+        self.KeyPress(key_code)
+        time.sleep(delay)
+        self.KeyUp(modifier_key)
+    
+    def CtrlA(self):
+        """Ctrl+A 全选"""
+        self.KeyCombo(17, 65)  # Ctrl=17, A=65
+    
+    def CtrlC(self):
+        """Ctrl+C 复制"""
+        self.KeyCombo(17, 67)  # Ctrl=17, C=67
+    
+    def CtrlV(self):
+        """Ctrl+V 粘贴"""
+        self.KeyCombo(17, 86)  # Ctrl=17, V=86
+    
+    def CtrlX(self):
+        """Ctrl+X 剪切"""
+        self.KeyCombo(17, 88)  # Ctrl=17, X=88
+    
+    def CtrlZ(self):
+        """Ctrl+Z 撤销"""
+        self.KeyCombo(17, 90)  # Ctrl=17, Z=90
+    
+    def CtrlS(self):
+        """Ctrl+S 保存"""
+        self.KeyCombo(17, 83)  # Ctrl=17, S=83
+    
     def LeftClick(self):
         """左键单击"""
         return self.dm.LeftClick()
